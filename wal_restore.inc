@@ -9,7 +9,7 @@
 #    - we are not in a login shell
 #
 # This to avoid setting the color scheme when ssh-ing into the
-# box as well as when doing other tools like scp. 
+# box as well as when using other tools like scp. 
 if [ -f ~/.cache/wal/sequences ]; then
 	if [[ $- == *i* ]]; then
 		if [ $ZSH_VERSION ]; then
