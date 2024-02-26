@@ -10,17 +10,19 @@
 #
 # This to avoid setting the color scheme when ssh-ing into the
 # box as well as when using other tools like scp. 
-if [ -f ~/.cache/wal/sequences ]; then
+
+if [ -f ${XDG_CACHE_HOME:-~/.cache}/wal/sequences ]; then
 	if [[ $- == *i* ]]; then
 		if [ $ZSH_VERSION ]; then
-			if [[ ! -o login ]]; then
-				(cat ~/.cache/wal/sequences &)
-			fi
+			[[ ! -o login ]] && LOAD_SEQUENCES=1
 		else
-			shopt -q login_shell
-			if [[ $? != 0 ]]; then
-				(cat ~/.cache/wal/sequences &)
-			fi
+			shopt -q login_shell || LOAD_SEQUENCES=1
+		fi
+
+		if [[ ! -z $LOAD_SEQUENCES ]]; then
+			(cat ${XDG_CACHE_HOME:-~/.cache}/wal/sequences &)
+			unset LOAD_SEQUENCES
+			clear
 		fi
 	fi
 fi
